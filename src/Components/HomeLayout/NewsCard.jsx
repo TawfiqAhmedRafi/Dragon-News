@@ -1,9 +1,10 @@
 import React from "react";
 import { FaStar, FaEye, FaShareAlt } from "react-icons/fa";
 import { MdOutlineBookmarkBorder } from "react-icons/md";
+import { Link } from "react-router";
 
 const NewsCard = ({ news }) => {
-  const { title, rating, total_view, author, thumbnail_url, details } =
+  const {id, title, rating, total_view, author, thumbnail_url, details } =
     news;
 
   const date = new Date(author.published_date).toLocaleDateString("en-US", {
@@ -49,7 +50,7 @@ const NewsCard = ({ news }) => {
         <p className="text-sm text-gray-700 line-clamp-4">{details}
             
         </p>
-        <p className="text-orange-400 font-semibold hover:underline hover:font-bold">Read More</p>
+        <Link to={`/news-details/${id}`} className="text-orange-400 font-semibold hover:underline hover:font-bold">Read More</Link>
 
         {/* Tags */}
         <div className="mt-0 flex flex-wrap gap-2">
