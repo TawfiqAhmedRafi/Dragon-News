@@ -1,35 +1,43 @@
 import React, { use, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const Register = () => {
-    
-    const {createUser,setUser}= use(AuthContext)
-    const [nameError, setNameError]=useState('')
+  const { createUser, setUser, updateUser } = use(AuthContext);
+  const [nameError, setNameError] = useState("");
+  const navigate = useNavigate();
   const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
-    if(name.length<5){
-        setNameError("Name Should be More Than 5 characters");
-        return
-    }
-    else{
-        setNameError("")
+    if (name.length < 5) {
+      setNameError("Name Should be More Than 5 characters");
+      return;
+    } else {
+      setNameError("");
     }
     const photo = form.photo.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log({name,photo,email,password});
-    createUser(email,password)
-    .then(result=>{
-        const user = result.user
-       setUser(user)
-    })
-    .catch((error)=>{
+    console.log({ name, photo, email, password });
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        updateUser({ displayName: name, photoURL: photo })
+          .then(() => {
+            setUser({...user,displayName: name, photoURL: photo});
+            navigate("/")
+          })
+          .catch((error) => {
+            const errorMessage = error.message;
+            alert(errorMessage);
+            setUser(user)
+          });
+      })
+      .catch((error) => {
         const errorMessage = error.message;
-        alert(errorMessage)
-    })
+        alert(errorMessage);
+      });
   };
   return (
     <div className="flex justify-center min-h-screen items-center">
