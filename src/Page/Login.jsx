@@ -7,23 +7,19 @@ const Login = () => {
   const navigate = useNavigate();
   const { signIn } = use(AuthContext);
   const location = useLocation();
-  console.log(location);
+  
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log({ email, password });
+   
     signIn(email, password)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-        navigate(`${location.state ? location.state : "/"}`);
+      .then(() => {
+        navigate(location.state ? location.state : "/");
       })
       .catch((error) => {
-        //const errorMessage = error.message;
-        const errorCode = error.code
-        setError(errorCode)
+        setError(error.code);
       });
   };
   return (
@@ -56,9 +52,7 @@ const Login = () => {
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
-            {
-                error && <p className="text-sm text-red-600">{error}</p>
-            }
+            {error && <p className="text-sm text-red-600">{error}</p>}
             <button type="submit" className="btn btn-neutral mt-4">
               Login
             </button>

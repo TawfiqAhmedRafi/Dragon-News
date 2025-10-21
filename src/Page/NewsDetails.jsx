@@ -12,7 +12,7 @@ const NewsDetails = () => {
     const newsDetails = data.find(singleNews=>singleNews.id == id);
     setNews(newsDetails)
    },[data , id]);
-   //console.log(news, data, id)
+   
   return (
     <div>
       <header className="py-3">
